@@ -30,7 +30,7 @@ geopghi  = $68
 filename .text "sample.wav"
 
 maxmem   .byte $00,$00,$00,$00
-mempgs   .byte $00,$20,$40,$80,$00
+mempgs   .byte $00,$08,$10,$20,$40
 
 memtablo .byte $00
          .byte <str5mem
@@ -46,8 +46,8 @@ memtabhi .byte $00
 
 str5mem  .null "GeoRAM 512K Detected "
 str1mem  .null "GeoRAM 1MB Detected "
-str2mem  .null "GeoRAM 2MB Detected "
-str4mem  .null "GeoRAM 4MB Detected "
+str2mem  .null "GeoRAM 2MB{sh space}Detected "
+str4mem  .null "GeoRAM 4MB{sh space}Detected "
 
 ;----[ Messages ]-----------------------
 
@@ -72,7 +72,7 @@ str4mem  .null "GeoRAM 4MB Detected "
          .null "Unsupported Sample Size"
 
          ;$05: GeoRAM Not Detected
-         .null "GeoRAM Not Detected"
+         .null "GeoRAM{sh space}Not Detected"
 
          ;$06: Data Chunk Size >2MB
          .text "Memory Limit, "
@@ -231,9 +231,6 @@ nomem    lda #$05   ;GeoRAM Not Detected
 
          lda mempgs,x
          sta maxmem+2
-         bne *+7
-         lda #$01
-         sta maxmem+3
 
          ;Output Detected Memory String
 
