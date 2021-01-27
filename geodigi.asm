@@ -46,8 +46,8 @@ memtabhi .byte $00
 
 str5mem  .null "GeoRAM 512K Detected "
 str1mem  .null "GeoRAM 1MB Detected "
-str2mem  .null "GeoRAM 2MB{sh space}Detected "
-str4mem  .null "GeoRAM 4MB{sh space}Detected "
+str2mem  .null "GeoRAM 2MB Detected "
+str4mem  .null "GeoRAM 4MB Detected "
 
 ;----[ Messages ]-----------------------
 
@@ -72,7 +72,7 @@ str4mem  .null "GeoRAM 4MB{sh space}Detected "
          .null "Unsupported Sample Size"
 
          ;$05: GeoRAM Not Detected
-         .null "GeoRAM{sh space}Not Detected"
+         .null "GeoRAM Not Detected"
 
          ;$06: Data Chunk Size >2MB
          .text "Memory Limit, "
@@ -1004,10 +1004,12 @@ loadfull ;Load Full Pages
          jsr chrin    ;Fetch Lo-Byte
          clc
          adc $d41b    ;C <- Dither Bit
+         php
 
          jsr chrin    ;Fetch Hi-Byte
          eor #$80     ;Signed->Unsigned
 
+         plp
          adc #0       ;Add Dither Bit
 
          sta $de00,y  ;GeoRAM Window
@@ -1042,10 +1044,12 @@ loadpart ;Load Final Partial Page
          jsr chrin    ;Fetch Lo-Byte
          clc
          adc $d41b    ;C <- Dither Bit
-
+         php
+         
          jsr chrin    ;Fetch Hi-Byte
          eor #$80     ;Signed->Unsigned
 
+         plp
          adc #0       ;Add Dither Bit
 
          sta $de00,y  ;GeoRAM Window
